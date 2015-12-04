@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.IAJ.Unity.TacticalAnalysis;
+﻿using Assets.Scripts.TacticalAnalysis;
 using RAIN.Navigation.Graph;
 
 namespace Assets.Scripts.GameManager

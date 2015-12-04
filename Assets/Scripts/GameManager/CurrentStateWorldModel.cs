@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.GameManager;
 
-namespace Assets.Scripts.IAJ.Unity.DecisionMaking.GOB
+namespace Assets.Scripts.DecisionMaking.GOB
 {
     //class that represents a world model that corresponds to the current state of the world,
     //all required properties and goals are stored inside the game manager

@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.DecisionMakingActions;
+using Assets.Scripts.DecisionMaking.GOB;
 using Assets.Scripts.GameManager;
-using Assets.Scripts.IAJ.Unity.DecisionMaking.GOB;
-using Assets.Scripts.IAJ.Unity.Movement.Arbitration.SteeringPipeline;
-using Assets.Scripts.IAJ.Unity.Movement.Arbitration.SteeringPipeline.Components.Actuators;
-using Assets.Scripts.IAJ.Unity.Movement.Arbitration.SteeringPipeline.Components.Decomposers;
-using Assets.Scripts.IAJ.Unity.Movement.Arbitration.SteeringPipeline.Components.Targeters;
-using Assets.Scripts.IAJ.Unity.Movement.DynamicMovement;
-using Assets.Scripts.IAJ.Unity.Pathfinding;
-using Assets.Scripts.IAJ.Unity.Pathfinding.DataStructures;
-using Assets.Scripts.IAJ.Unity.Pathfinding.Heuristics;
-using Assets.Scripts.IAJ.Unity.TacticalAnalysis;
+using Assets.Scripts.Movement.Arbitration.SteeringPipeline;
+using Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Actuators;
+using Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Decomposers;
+using Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Targeters;
+using Assets.Scripts.Movement.DynamicMovement;
+using Assets.Scripts.TacticalAnalysis.DataStructures;
+using Assets.Scripts.Pathfinding;
+using Assets.Scripts.Pathfinding.Heuristics;
+using Assets.Scripts.TacticalAnalysis;
 using RAIN.Navigation;
 using RAIN.Navigation.Graph;
 using RAIN.Navigation.NavMesh;
 using UnityEngine;
 using UnityEngine.UI;
-using Action = Assets.Scripts.IAJ.Unity.DecisionMaking.GOB.Action;
+using Action = Assets.Scripts.DecisionMaking.GOB.Action;
+
 
 namespace Assets.Scripts
 {

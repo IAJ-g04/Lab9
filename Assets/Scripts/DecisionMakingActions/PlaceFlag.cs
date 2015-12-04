@@ -1,6 +1,6 @@
 ﻿using System;
-using Assets.Scripts.IAJ.Unity.DecisionMaking.GOB;
-using Action = Assets.Scripts.IAJ.Unity.DecisionMaking.GOB.Action;
+using Assets.Scripts.DecisionMaking.GOB;
+using Action = Assets.Scripts.DecisionMaking.GOB.Action;
 
 namespace Assets.Scripts.DecisionMakingActions
 {
