@@ -416,20 +416,20 @@ namespace Assets.Scripts
                         Gizmos.DrawCube(locationRecord.Key.Location.LocalPosition, size);
                     }
                 }
-                
-                
+
+
                 //draw the current Solution Path if any (for debug purposes)
-                if (this.decomposer.UnsmoothedPath != null)
+                if (this.decomposer.UnsmoothedPath != null && this.decomposer.CurrentPath != null)
                 {
-                    var previousPosition = this.Character.KinematicData.position;
-                    foreach (var pathPosition in this.decomposer.UnsmoothedPath.PathPositions)
+                    var previousPosition = this.decomposer.UnsmoothedPath.PathPositions[0];
+                    foreach (var pathPosition in this.decomposer.UnsmoothedPath.PathPositions.Skip(1))
                     {
                         Debug.DrawLine(previousPosition, pathPosition, Color.red);
                         previousPosition = pathPosition;
                     }
 
-                    previousPosition = this.Character.KinematicData.position;
-                    foreach (var pathPosition in this.decomposer.CurrentPath.PathPositions)
+                    previousPosition = this.decomposer.CurrentPath.PathPositions[0];
+                    foreach (var pathPosition in this.decomposer.CurrentPath.PathPositions.Skip(1))
                     {
                         Debug.DrawLine(previousPosition, pathPosition, Color.green);
                         previousPosition = pathPosition;
