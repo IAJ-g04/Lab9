@@ -62,6 +62,7 @@ namespace Assets.Scripts
         public InfluenceMap RedInfluenceMap { get; set; }
         public InfluenceMap GreenInfluenceMap { get; set; }
         public InfluenceMap ResourceInfluenceMap { get; set; }
+        public PlaceFlag PlaceFlagAction { get; set; }
 
         public List<IInfluenceUnit> RedFlags { get; set; }
         public List<IInfluenceUnit> GreenFlags { get; set; }
@@ -153,11 +154,8 @@ namespace Assets.Scripts
             var restAction = new Rest(this);
             this.Actions = new List<Action>();
             this.Actions.Add(restAction);
-
-            var newFlag = new GameObject();
-            newFlag.name = "Flag";
-            newFlag.transform.position = BestFlagPosition;
-            //this.Actions.Add(new PlaceFlag(this, newFlag));
+            this.PlaceFlagAction = new PlaceFlag(this);
+            this.Actions.Add(this.PlaceFlagAction);
 
             this.ActiveResources = new Dictionary<NavigationGraphNode, IInfluenceUnit>();
 
@@ -365,6 +363,12 @@ namespace Assets.Scripts
 
                 ProcessInfluenceRecord(locationRecord);
             }
+
+            if(this.BestCombinedInfluence > 0) {
+                this.PlaceFlagAction.Position = this.BestFlagPosition;
+                this.PlaceFlagAction.TargetName = "RedFlag";
+            }
+
         }
 
         public void ProcessInfluenceRecord(LocationRecord locationRecord)

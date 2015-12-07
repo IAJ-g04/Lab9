@@ -4,10 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.DecisionMakingActions
 {
-    public class PlaceFlag : WalkToTargetAndExecuteAction
+    public class PlaceFlag : WalkToPositionAndExecuteAction
     {
-
-        public PlaceFlag(AutonomousCharacter character, GameObject target) : base("PlaceFlag", character, target)
+        public PlaceFlag(AutonomousCharacter character) : base("PlaceFlag", character)
         {
         }
 
@@ -34,7 +33,7 @@ namespace Assets.Scripts.DecisionMakingActions
         {
 
             base.Execute();
-            this.Character.GameManager.PlaceFlag(this.Target.transform.position);
+            this.Character.GameManager.PlaceFlag(this.Position);
         }
 
 
