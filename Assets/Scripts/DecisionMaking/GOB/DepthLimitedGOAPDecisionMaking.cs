@@ -20,11 +20,11 @@ namespace Assets.Scripts.DecisionMaking.GOB
         public Action[] BestActionSequence { get; private set; }
         public Action BestAction { get; private set; }
         public float BestDiscontentmentValue { get; private set; }
-        private int CurrentDepth {  get; set; }
+        private int CurrentDepth { get; set; }
 
         public DepthLimitedGOAPDecisionMaking(CurrentStateWorldModel currentStateWorldModel, List<Action> actions, List<Goal> goals)
         {
-            this.ActionCombinationsProcessedPerFrame = 200;
+            this.ActionCombinationsProcessedPerFrame = 500;
             this.Actions = actions;
             this.Goals = goals;
             this.InitialWorldModel = currentStateWorldModel;
@@ -51,23 +51,28 @@ namespace Assets.Scripts.DecisionMaking.GOB
 
             var startTime = Time.realtimeSinceStartup;
 
-            while(this.CurrentDepth >= 0)
+            while (this.CurrentDepth >= 0)
             {
+
+
                 float currentValue = this.Models[this.CurrentDepth].CalculateDiscontentment(this.Goals);
 
-                if(this.CurrentDepth >= MAX_DEPTH)
+                if (this.CurrentDepth >= MAX_DEPTH)
                 {
-                    if(currentValue < this.BestDiscontentmentValue)
+                    if (currentValue < this.BestDiscontentmentValue)
                     {
                         this.BestDiscontentmentValue = currentValue;
-                        this.BestAction = this.Actions[0];
+                        this.BestAction = this.BestActionSequence[0];
                     }
                     this.CurrentDepth -= 1;
                     continue;
                 }
-
+                
                 Action nextAction = this.Models[this.CurrentDepth].GetNextAction();
                 processedActions++;
+
+                
+
                 if (nextAction != null)
                 {
                     this.Models[this.CurrentDepth + 1] = this.Models[this.CurrentDepth].GenerateChildWorldModel();
@@ -79,8 +84,12 @@ namespace Assets.Scripts.DecisionMaking.GOB
                     this.CurrentDepth -= 1;
             }
 
+            this.TotalActionCombinationsProcessed += processedActions;
+            this.TotalProcessingTime += Time.realtimeSinceStartup - startTime;
+
+            this.InProgress = false;
             return this.BestAction;
-            
+
         }
     }
 }

@@ -147,7 +147,7 @@ namespace Assets.Scripts
             var restAction = new Rest(this);
             this.Actions = new List<Action>();
             this.Actions.Add(restAction);
-            this.Actions.Add(new PlaceFlag(this));
+          //  this.Actions.Add(new PlaceFlag(this));
 
             this.ActiveResources = new Dictionary<NavigationGraphNode, IInfluenceUnit>();
 
