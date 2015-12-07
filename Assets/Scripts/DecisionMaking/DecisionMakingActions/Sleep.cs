@@ -17,18 +17,13 @@ namespace Assets.Scripts.DecisionMakingActions
             return change;
         }
 
-        public override bool CanExecute()
-        {
-            if (!base.CanExecute()) return false;
-            return this.Character.GameManager.characterData.Energy < 8.0f;
-        }
+       
 
         public override bool CanExecute(WorldModel worldModel)
         {
             if (!base.CanExecute(worldModel)) return false;
 
-            var energy = (float) worldModel.GetProperty(Properties.ENERGY);
-            return energy < 8.0f;
+            return (worldModel.GetGoalValue(AutonomousCharacter.REST_GOAL) > 2.5f && worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL) < 8.5);
         }
 
         public override void ApplyActionEffects(WorldModel worldModel)

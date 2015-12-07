@@ -15,15 +15,14 @@ namespace Assets.Scripts.DecisionMakingActions
             this.Character = character;
         }
 
-        public override bool CanExecute()
-        {
-            return true;
-        }
+      
 
         public override bool CanExecute(WorldModel worldModel)
         {
-            return true;
+            var en = (float)worldModel.GetProperty(Properties.ENERGY);
+            return en > 0.3;        
         }
-
     }
+
+    
 }

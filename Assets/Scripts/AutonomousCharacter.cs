@@ -32,7 +32,7 @@ namespace Assets.Scripts
         public const string GET_RICH_GOAL = "GetRich";
         public const string CONQUER_GOAL = "Conquer";
 
-        public const float DECISION_MAKING_INTERVAL = 0.5f;
+        public const float DECISION_MAKING_INTERVAL = 1.0f;
         //public fields to be set in Unity Editor
         public GameManager.GameManager GameManager;
         public TextMesh ActionText;
@@ -127,18 +127,18 @@ namespace Assets.Scripts
             //initialization of the GOB decision making
             //let's start by creating 5 main goals
             //the eat goal is the only goal that increases at a fixed rate per second, it increases at a rate of 0.1 per second
-            this.SurviveGoal = new Goal(SURVIVE_GOAL, 2.0f);
-            this.EatGoal = new Goal(EAT_GOAL, 4.0f)
+            this.SurviveGoal = new Goal(SURVIVE_GOAL, 1.5f);
+            this.EatGoal = new Goal(EAT_GOAL, 2.0f)
             {
                 ChangeRate = 0.1f
             };
-            this.GetRichGoal = new Goal(GET_RICH_GOAL, 0.5f)
+            this.GetRichGoal = new Goal(GET_RICH_GOAL, 1.0f)
             {
                 InsistenceValue = 5.0f,
                 ChangeRate = 0.2f
             };
-            this.RestGoal = new Goal(REST_GOAL, 0.5f);
-            this.ConquerGoal = new Goal(CONQUER_GOAL, 1.5f)
+            this.RestGoal = new Goal(REST_GOAL, 0.25f);
+            this.ConquerGoal = new Goal(CONQUER_GOAL, 0.5f)
             {
                 InsistenceValue = 5.0f
             };

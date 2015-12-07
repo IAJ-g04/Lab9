@@ -21,18 +21,15 @@ namespace Assets.Scripts.DecisionMakingActions
             return change;
         }
 
-        public override bool CanExecute()
-        {
-            if (!base.CanExecute()) return false;
-            return this.Character.GameManager.characterData.Energy < 2.0f;
-        }
+        
 
         public override bool CanExecute(WorldModel worldModel)
         {
-            if (!base.CanExecute(worldModel)) return false;
-
+//if (!base.CanExecute(worldModel)) return false;
             var energy = (float)worldModel.GetProperty(Properties.ENERGY);
-            return energy < 2.0f;
+            var hn = (float)worldModel.GetProperty(Properties.HUNGER);
+
+            return (energy < 2.0f && hn < 9.5);
         }
 
         public override void ApplyActionEffects(WorldModel worldModel)
