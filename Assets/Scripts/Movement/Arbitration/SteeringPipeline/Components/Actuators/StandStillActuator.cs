@@ -17,7 +17,7 @@ namespace Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Actuat
             this.StopMovement = new DynamicStop(this.Pipeline.Character)
             {
                 MaxAcceleration = 40.0f,
-                TimeToStop = 1.5f
+                TimeToStop = 2.0f
             };
         }
 
