@@ -11,7 +11,8 @@ namespace Assets.Scripts.DecisionMakingActions
 
         protected GameObject Target { get; set; }
 
-        protected WalkToTargetAndExecuteAction(string actionName, AutonomousCharacter character, GameObject target) : base(actionName+"("+target.name+")")
+        protected string Actuator { get { return "FollowPathActuator"; } }
+        protected WalkToTargetAndExecuteAction(string actionName, AutonomousCharacter character, GameObject target) : base(actionName + "(" + target.name + ")")
         {
             this.Character = character;
             this.Target = target;
@@ -37,14 +38,14 @@ namespace Assets.Scripts.DecisionMakingActions
                 var distance =
                     (this.Target.transform.position - this.Character.Character.KinematicData.position).magnitude;
                 //+0.01 * distance because of the walk 
-                return distance*0.01f;
+                return distance * 0.01f;
             }
             else return 0;
         }
 
         public override bool CanExecute()
         {
-           if(this.Target != null)
+            if (this.Target != null)
             {
                 var distance =
                    (this.Target.transform.position - this.Character.Character.KinematicData.position).magnitude;
@@ -68,7 +69,8 @@ namespace Assets.Scripts.DecisionMakingActions
 
         public override void Execute()
         {
-            this.Character.Targeter.Target.Position = this.Target.transform.position;
+            this.Character.CharActuator.SwitchActuator(this.Actuator);
+            this.Character.Targeter.UpdateGoal(this.Target.transform.position);
         }
 
 
@@ -76,7 +78,7 @@ namespace Assets.Scripts.DecisionMakingActions
         {
             var duration = this.GetDuration(worldModel);
             var energyChange = duration * 0.01f;
-            var hungerChange = duration*0.1f;
+            var hungerChange = duration * 0.1f;
 
             var restValue = worldModel.GetGoalValue(AutonomousCharacter.REST_GOAL);
             worldModel.SetGoalValue(AutonomousCharacter.REST_GOAL, restValue + energyChange);
@@ -85,9 +87,9 @@ namespace Assets.Scripts.DecisionMakingActions
             worldModel.SetProperty(Properties.ENERGY, energy - energyChange);
 
             var eatGoalValue = worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL);
-            worldModel.SetGoalValue(AutonomousCharacter.EAT_GOAL,eatGoalValue + hungerChange);
+            worldModel.SetGoalValue(AutonomousCharacter.EAT_GOAL, eatGoalValue + hungerChange);
 
-            var hunger = (float) worldModel.GetProperty(Properties.HUNGER);
+            var hunger = (float)worldModel.GetProperty(Properties.HUNGER);
             worldModel.SetProperty(Properties.HUNGER, hunger + hungerChange);
 
             worldModel.SetProperty(Properties.POSITION, Target.transform.position);

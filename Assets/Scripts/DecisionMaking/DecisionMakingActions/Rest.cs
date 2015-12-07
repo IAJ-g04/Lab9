@@ -2,16 +2,14 @@
 using Assets.Scripts.GameManager;
 using Assets.Scripts.DecisionMaking.GOB;
 using Action = Assets.Scripts.DecisionMaking.GOB.Action;
+using UnityEngine;
 
 namespace Assets.Scripts.DecisionMakingActions
 {
-    public class Rest : Action
+    public class Rest : StandStillAction
     {
-        private AutonomousCharacter Character{ get; set; }
-
-        public Rest(AutonomousCharacter character) : base("Rest")
+        public Rest(AutonomousCharacter character) : base("Rest", character)
         {
-            this.Character = character;
             this.Duration = 0.5f;
         }
 
@@ -49,6 +47,7 @@ namespace Assets.Scripts.DecisionMakingActions
 
         public override void Execute()
         {
+            base.Execute();
             this.Character.GameManager.Rest();
         }
     }

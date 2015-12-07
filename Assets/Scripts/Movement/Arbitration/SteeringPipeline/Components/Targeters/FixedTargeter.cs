@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+
 namespace Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Targeters
 {
     public class FixedTargeter : TargeterComponent
@@ -13,6 +15,16 @@ namespace Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Target
         public override SteeringGoal GetGoal()
         {
             return this.Target;
+        }
+
+        public void UpdateGoal(SteeringGoal goal)
+        {
+            this.Target = goal;
+        }
+
+        public void UpdateGoal(Vector3 position)
+        {
+            this.Target.Position = position;
         }
     }
 }

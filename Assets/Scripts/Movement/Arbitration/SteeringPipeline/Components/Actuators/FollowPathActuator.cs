@@ -5,6 +5,11 @@ namespace Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Actuat
 {
     public class FollowPathActuator : ActuatorComponent
     {
+        public override string Name
+        {
+            get { return "FollowPathActuator"; }
+        }
+
         private DynamicFollowPath FollowPathMovement { get; set; }
         private Path PreviousPath { get; set; }
 

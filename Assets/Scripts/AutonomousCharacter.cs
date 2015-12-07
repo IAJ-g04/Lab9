@@ -57,6 +57,7 @@ namespace Assets.Scripts
         public Action CurrentAction { get; private set; }
         public DynamicCharacter Character { get; private set; }
         public FixedTargeter Targeter { get; set; }
+        public ActuatorSwitch CharActuator { get; set; }
         public DepthLimitedGOAPDecisionMaking GOAPDecisionMaking { get; set; }
         public InfluenceMap RedInfluenceMap { get; set; }
         public InfluenceMap GreenInfluenceMap { get; set; }
@@ -68,7 +69,6 @@ namespace Assets.Scripts
         public Dictionary<LocationRecord, float> CombinedInfluence { get; set; }
         public Vector3 BestFlagPosition { get; set; }
         public float BestCombinedInfluence { get; set; }
-
 
         //private fields for internal use only
         private NavMeshPathGraph navMesh;
@@ -106,7 +106,13 @@ namespace Assets.Scripts
             this.Targeter = new FixedTargeter(steeringPipeline);
             steeringPipeline.Targeters.Add(this.Targeter);
             steeringPipeline.Decomposers.Add(this.decomposer);
-            steeringPipeline.Actuator = new FollowPathActuator(steeringPipeline);
+            this.CharActuator = new ActuatorSwitch(steeringPipeline);
+            var followPath = new FollowPathActuator(steeringPipeline);
+            var standStill = new StandStillActuator(steeringPipeline);
+            this.CharActuator.Actuators.Add(followPath.Name, followPath);
+            this.CharActuator.Actuators.Add(standStill.Name, standStill);
+            this.CharActuator.SwitchActuator(followPath.Name);
+            steeringPipeline.Actuator = this.CharActuator;
 
             this.Character.Movement = steeringPipeline;
 
@@ -307,6 +313,8 @@ namespace Assets.Scripts
             
             this.Character.Update();
         }
+
+       
 
         private void AddResource(Resource resource)
         {

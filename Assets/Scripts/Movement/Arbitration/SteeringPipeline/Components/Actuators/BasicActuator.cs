@@ -5,9 +5,15 @@ namespace Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Actuat
 {
     public class BasicActuator : ActuatorComponent
     {
+        public override string Name
+        {
+            get { return "BasicActuator"; }
+        }
+
         public BasicActuator(SteeringPipeline pipeline) : base(pipeline)
         {
         }
+
         public DynamicSeek Seek { get; set; }
 
         public override Path GetPath(SteeringGoal goal)

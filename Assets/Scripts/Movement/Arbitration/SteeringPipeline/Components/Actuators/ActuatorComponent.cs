@@ -5,6 +5,7 @@ namespace Assets.Scripts.Movement.Arbitration.SteeringPipeline.Components.Actuat
     //An actuator turns a goal into a Path: taking the character's capabilities into account.
     public abstract class ActuatorComponent : SteeringPipelineComponent
     {
+        public abstract string Name { get; }
         protected ActuatorComponent(SteeringPipeline pipeline) : base(pipeline)
         {
         }
