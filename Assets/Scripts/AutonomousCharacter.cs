@@ -236,11 +236,11 @@ namespace Assets.Scripts
                     this.previousGold = this.GameManager.characterData.Money;
                 }
 
-                this.SurviveGoalText.text = "Survive: " + this.SurviveGoal.InsistenceValue;
-                this.EatGoalText.text = "Eat: " + this.EatGoal.InsistenceValue;
-                this.RestGoalText.text = "Rest: " + this.RestGoal.InsistenceValue;
-                this.GetRichGoalText.text = "GetRich: " + this.GetRichGoal.InsistenceValue;
-                this.ConquerGoalText.text = "Conquer: " + this.ConquerGoal.InsistenceValue;
+                this.SurviveGoalText.text = "Survive: " + this.SurviveGoal.InsistenceValue.ToString("0.00");
+                this.EatGoalText.text = "Eat: " + this.EatGoal.InsistenceValue.ToString("0.00");
+                this.RestGoalText.text = "Rest: " + this.RestGoal.InsistenceValue.ToString("0.00");
+                this.GetRichGoalText.text = "GetRich: " + this.GetRichGoal.InsistenceValue.ToString("0.00");
+                this.ConquerGoalText.text = "Conquer: " + this.ConquerGoal.InsistenceValue.ToString("0.00");
 
                 //initialize GOAP Decision Making Proccess
                 this.GOAPDecisionMaking.InitializeDecisionMakingProcess();
