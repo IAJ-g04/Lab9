@@ -26,7 +26,7 @@ namespace Assets.Scripts.DecisionMakingActions
         {
             if (!base.CanExecute(worldModel)) return false;
 
-            return  (worldModel.GetGoalValue(AutonomousCharacter.GET_RICH_GOAL) > 8.5f && worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL) < 8.5f);
+            return  (worldModel.GetGoalValue(AutonomousCharacter.GET_RICH_GOAL) > 5.5f && worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL) < 8.5f);
         }
 
         public override void Execute()

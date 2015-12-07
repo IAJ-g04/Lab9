@@ -131,13 +131,13 @@ namespace Assets.Scripts
             {
                 ChangeRate = 0.1f
             };
-            this.GetRichGoal = new Goal(GET_RICH_GOAL, 0.25f)
+            this.GetRichGoal = new Goal(GET_RICH_GOAL, 1.0f)
             {
                 InsistenceValue = 5.0f,
                 ChangeRate = 0.2f
             };
-            this.RestGoal = new Goal(REST_GOAL, 0.1f);
-            this.ConquerGoal = new Goal(CONQUER_GOAL, 0.25f)
+            this.RestGoal = new Goal(REST_GOAL, 0.25f);
+            this.ConquerGoal = new Goal(CONQUER_GOAL, 0.5f)
             {
                 InsistenceValue = 5.0f
             };
