@@ -32,7 +32,7 @@ namespace Assets.Scripts
         public const string GET_RICH_GOAL = "GetRich";
         public const string CONQUER_GOAL = "Conquer";
 
-        public const float DECISION_MAKING_INTERVAL = 1.5f;
+        public const float DECISION_MAKING_INTERVAL = 0.5f;
         //public fields to be set in Unity Editor
         public GameManager.GameManager GameManager;
         public TextMesh ActionText;
@@ -271,33 +271,38 @@ namespace Assets.Scripts
 
             if (this.GOAPDecisionMaking.InProgress)
             {
-                //choose an action using the GOB Decision Making process
+                //choose an action using the GOAP Decision Making process
                 var action = this.GOAPDecisionMaking.ChooseAction();
                 if (action != null)
                 {
                     action.Execute();
                     this.CurrentAction = action;
                     this.ActionText.text = this.CurrentAction.Name;
+
+                    if (this.GOAPDecisionMaking.BestAction != null)
+                    {
+                        var actionText = "";
+                        foreach (var actiont in this.GOAPDecisionMaking.BestActionSequence)
+                        {
+                            actionText += "\n" + actiont.Name;
+                        }
+                        this.BestActionText.text = "Best Action Sequence: " + actionText;
+                    }
+                    else
+                    {
+                        this.BestActionText.text = "Best Action Sequence:\nNone";
+                    }
+                    this.TotalProcessingTimeText.text = "Processing Time: " + this.GOAPDecisionMaking.TotalProcessingTime;
+                    this.BestDiscontentmentText.text = "Best Discontentment: " + this.GOAPDecisionMaking.BestDiscontentmentValue;
+                    this.ProcessedActionsText.text = "Action comb. processed: " + this.GOAPDecisionMaking.TotalActionCombinationsProcessed;
                 }
+
+                
             }
 
-            this.TotalProcessingTimeText.text = "Processing Time: " + this.GOAPDecisionMaking.TotalProcessingTime;
-            this.BestDiscontentmentText.text = "Best Discontentment: " + this.GOAPDecisionMaking.BestDiscontentmentValue;
-            this.ProcessedActionsText.text = "Action comb. processed: " + this.GOAPDecisionMaking.TotalActionCombinationsProcessed;
+          
             
-            if (this.GOAPDecisionMaking.BestAction != null)
-            {
-                var actionText = "";
-                foreach (var action in this.GOAPDecisionMaking.BestActionSequence)
-                {
-                    actionText += "\n" + action.Name;
-                }
-                this.BestActionText.text = "Best Action Sequence: " + actionText;
-            }
-            else
-            {
-                this.BestActionText.text = "Best Action Sequence:\nNone";
-            }
+           
             
             
             this.Character.Update();
