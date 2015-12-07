@@ -60,7 +60,7 @@ namespace Assets.Scripts.TacticalAnalysis
 
             while (this.Open.CountOpen() > 0)
             {
-                if(processedNodes < this.NodesPerFlood)
+                if(processedNodes >  this.NodesPerFlood)
                 {
                     this.InProgress = true;
                     return false;

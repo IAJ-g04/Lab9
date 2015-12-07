@@ -201,7 +201,6 @@ namespace Assets.Scripts
             this.RedInfluenceMap.Initialize(this.RedFlags);
             this.GreenInfluenceMap.Initialize(this.GreenFlags);
 
-
             var worldModel = new CurrentStateWorldModel(this.GameManager, this.Actions, this.Goals);
 
             this.GOAPDecisionMaking = new DepthLimitedGOAPDecisionMaking(worldModel,this.Actions,this.Goals);
@@ -285,32 +284,29 @@ namespace Assets.Scripts
                     this.CurrentAction = action;
                     this.ActionText.text = this.CurrentAction.Name;
 
-                    if (this.GOAPDecisionMaking.BestAction != null)
-                    {
-                        var actionText = "";
-                        foreach (var actiont in this.GOAPDecisionMaking.BestActionSequence)
-                        {
-                            actionText += "\n" + actiont.Name;
-                        }
-                        this.BestActionText.text = "Best Action Sequence: " + actionText;
-                    }
-                    else
-                    {
-                        this.BestActionText.text = "Best Action Sequence:\nNone";
-                    }
-                    this.TotalProcessingTimeText.text = "Processing Time: " + this.GOAPDecisionMaking.TotalProcessingTime;
-                    this.BestDiscontentmentText.text = "Best Discontentment: " + this.GOAPDecisionMaking.BestDiscontentmentValue;
-                    this.ProcessedActionsText.text = "Action comb. processed: " + this.GOAPDecisionMaking.TotalActionCombinationsProcessed;
+                   
                 }
-
-                
             }
 
-          
-            
-           
-            
-            
+            if (this.GOAPDecisionMaking.BestAction != null)
+            {
+                var actionText = "";
+                foreach (var actiont in this.GOAPDecisionMaking.BestActionSequence)
+                {
+                    actionText += "\n" + actiont.Name;
+                }
+                this.BestActionText.text = "Best Action Sequence: " + actionText;
+            }
+            else
+            {
+                this.BestActionText.text = "Best Action Sequence:\nNone";
+            }
+            this.TotalProcessingTimeText.text = "Processing Time: " + this.GOAPDecisionMaking.TotalProcessingTime;
+            this.BestDiscontentmentText.text = "Best Discontentment: " + this.GOAPDecisionMaking.BestDiscontentmentValue;
+            this.ProcessedActionsText.text = "Action comb. processed: " + this.GOAPDecisionMaking.TotalActionCombinationsProcessed;
+
+
+
             this.Character.Update();
         }
 

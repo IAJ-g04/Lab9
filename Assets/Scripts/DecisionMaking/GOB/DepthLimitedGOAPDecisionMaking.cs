@@ -24,7 +24,7 @@ namespace Assets.Scripts.DecisionMaking.GOB
 
         public DepthLimitedGOAPDecisionMaking(CurrentStateWorldModel currentStateWorldModel, List<Action> actions, List<Goal> goals)
         {
-            this.ActionCombinationsProcessedPerFrame = 500;
+            this.ActionCombinationsProcessedPerFrame = 200;
             this.Actions = actions;
             this.Goals = goals;
             this.InitialWorldModel = currentStateWorldModel;
@@ -51,9 +51,15 @@ namespace Assets.Scripts.DecisionMaking.GOB
 
             var startTime = Time.realtimeSinceStartup;
 
+            Action[] actions = new Action[MAX_DEPTH];
+
             while (this.CurrentDepth >= 0)
             {
-
+                if(processedActions > this.ActionCombinationsProcessedPerFrame)
+                {
+                    this.InProgress = true;
+                    return null;
+                }
 
                 float currentValue = this.Models[this.CurrentDepth].CalculateDiscontentment(this.Goals);
 
@@ -62,7 +68,11 @@ namespace Assets.Scripts.DecisionMaking.GOB
                     if (currentValue < this.BestDiscontentmentValue)
                     {
                         this.BestDiscontentmentValue = currentValue;
-                        this.BestAction = this.BestActionSequence[0];
+                        this.BestAction = actions[0];
+                        actions.CopyTo(this.BestActionSequence,0);
+
+                        this.TotalActionCombinationsProcessed += processedActions;
+                        this.TotalProcessingTime += Time.realtimeSinceStartup - startTime;
                     }
                     this.CurrentDepth -= 1;
                     continue;
@@ -71,21 +81,17 @@ namespace Assets.Scripts.DecisionMaking.GOB
                 Action nextAction = this.Models[this.CurrentDepth].GetNextAction();
                 processedActions++;
 
-                
-
                 if (nextAction != null)
                 {
                     this.Models[this.CurrentDepth + 1] = this.Models[this.CurrentDepth].GenerateChildWorldModel();
                     nextAction.ApplyActionEffects(this.Models[this.CurrentDepth + 1]);
-                    this.BestActionSequence[this.CurrentDepth] = nextAction;
+                    actions[CurrentDepth] = nextAction;
                     this.CurrentDepth += 1;
                 }
                 else
                     this.CurrentDepth -= 1;
             }
-
-            this.TotalActionCombinationsProcessed += processedActions;
-            this.TotalProcessingTime += Time.realtimeSinceStartup - startTime;
+            
 
             this.InProgress = false;
             return this.BestAction;
