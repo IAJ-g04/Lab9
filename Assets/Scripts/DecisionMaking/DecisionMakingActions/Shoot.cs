@@ -21,7 +21,7 @@ namespace Assets.Scripts.DecisionMakingActions
         public override bool CanExecute()
         {
             if (!base.CanExecute()) return false;
-            return this.Character.GameManager.characterData.Arrows >= 1 ;
+            return (this.Character.GameManager.characterData.Arrows >= 1 && this.Character.GameManager.characterData.Hunger > 4.0f);
         }
 
         public override bool CanExecute(WorldModel worldModel)
@@ -31,7 +31,8 @@ namespace Assets.Scripts.DecisionMakingActions
                 return false;
             }
             var arr = (int)worldModel.GetProperty(Properties.ARROWS);
-            return arr >= 1;
+            var hh = (float)worldModel.GetProperty(Properties.HUNGER);
+            return arr >= 1 && hh > 4.0f;
         }
 
         public override void Execute()
@@ -50,6 +51,9 @@ namespace Assets.Scripts.DecisionMakingActions
 
             var hunger = (float)worldModel.GetProperty(Properties.HUNGER);
             worldModel.SetProperty(Properties.HUNGER, hunger - 2.0f);
+
+            var arrows = (int)worldModel.GetProperty(Properties.ARROWS);
+            worldModel.SetProperty(Properties.ARROWS, arrows - 1);
 
             //disables the target object so that it can't be reused again
             worldModel.SetProperty(this.Target.name, false);

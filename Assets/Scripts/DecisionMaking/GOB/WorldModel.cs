@@ -96,8 +96,7 @@ namespace Assets.Scripts.DecisionMaking.GOB
             foreach (var goal in goals)
             {
                 var newValue = this.GetGoalValue(goal.Name);
-
-                discontentment += goal.GetDiscontentment(newValue);
+                    discontentment += goal.GetDiscontentment(newValue);
             }
 
             return discontentment;
