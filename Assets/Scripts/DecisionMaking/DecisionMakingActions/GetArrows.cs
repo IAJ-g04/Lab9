@@ -31,6 +31,9 @@ namespace Assets.Scripts.DecisionMakingActions
             if (!base.CanExecute(worldModel)) return false;
             var hg = (float)worldModel.GetProperty(Properties.HUNGER);
             var sg = (int)worldModel.GetProperty(Properties.HP);
+            var ar = (int)worldModel.GetProperty(Properties.ARROWS);
+            if (ar > 5)
+                return false;
             if (sg > 2)
             {
                 return hg < 8.0f;
