@@ -23,7 +23,7 @@ namespace Assets.Scripts.Movement.DynamicMovement
             MovementOutput output = new MovementOutput();
             if (this.Character.velocity.magnitude < Delta)
                 return output;
-            output.linear = -this.Character.GetOrientationAsVector();
+            output.linear = -this.Character.velocity;
             output.linear *= TimeToStop;
             return output;
         }
