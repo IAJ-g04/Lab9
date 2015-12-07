@@ -16,21 +16,20 @@ namespace Assets.Scripts.DecisionMakingActions
         public override float GetGoalChange(Goal goal)
         {
             var change = base.GetGoalChange(goal);
-            if (goal.Name == AutonomousCharacter.GET_RICH_GOAL) change -= 0.5f;
+            if (goal.Name == AutonomousCharacter.GET_RICH_GOAL) change -= 5.0f;
             return change;
         }
 
         public override bool CanExecute()
         {
             if (!base.CanExecute()) return false;
-            return this.Character.GameManager.characterData.Energy > 0.1f;
+            return true;
         }
 
         public override bool CanExecute(WorldModel worldModel)
         {
             if (!base.CanExecute(worldModel)) return false;
-            var energy = (float)worldModel.GetProperty(Properties.ENERGY);
-            return energy > 0.1f;
+            return  true;
         }
 
         public override void Execute()
@@ -44,7 +43,7 @@ namespace Assets.Scripts.DecisionMakingActions
             base.ApplyActionEffects(worldModel);
 
             var grich = worldModel.GetGoalValue(AutonomousCharacter.GET_RICH_GOAL);
-            worldModel.SetGoalValue(AutonomousCharacter.REST_GOAL, grich - 0.5f);
+            worldModel.SetGoalValue(AutonomousCharacter.REST_GOAL, grich - 5.0f);
             
             var money = (int)worldModel.GetProperty(Properties.MONEY);
             worldModel.SetProperty(Properties.MONEY, money + 5);
