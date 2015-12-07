@@ -6,14 +6,12 @@ using Assets.Scripts.Movement.Arbitration.SteeringPipeline;
 
 namespace Assets.Scripts.DecisionMakingActions
 {
-    public abstract class StandStillAction : Action
+    public abstract class StandStillAction : CharacterAction
     {
-        protected AutonomousCharacter Character { get; set; }
-
+        
         protected string Actuator { get { return "StandStillActuator"; } }
-        protected StandStillAction(string actionName, AutonomousCharacter character) : base(actionName)
+        protected StandStillAction(string actionName, AutonomousCharacter character) : base(actionName, character)
         {
-            this.Character = character;
         }
 
         public override void Execute()

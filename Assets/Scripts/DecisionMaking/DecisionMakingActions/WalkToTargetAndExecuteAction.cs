@@ -5,17 +5,14 @@ using Action = Assets.Scripts.DecisionMaking.GOB.Action;
 
 namespace Assets.Scripts.DecisionMakingActions
 {
-    public abstract class WalkToTargetAndExecuteAction : Action
+    public abstract class WalkToTargetAndExecuteAction : CharacterAction
     {
-        protected AutonomousCharacter Character { get; set; }
 
         protected GameObject Target { get; set; }
 
         protected string Actuator { get { return "FollowPathActuator"; } }
-        protected WalkToTargetAndExecuteAction(string actionName, AutonomousCharacter character, GameObject target) : base(actionName + "(" + target.name + ")")
+        protected WalkToTargetAndExecuteAction(string actionName, AutonomousCharacter character, GameObject target) : base(actionName + "(" + target.name + ")", character)
         {
-            this.Character = character;
-            this.Target = target;
         }
 
         public override float GetDuration()
