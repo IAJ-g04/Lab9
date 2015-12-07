@@ -127,5 +127,23 @@ namespace Assets.Scripts.TacticalAnalysis
             }
         }
         
+        public float GetInfluence(LocationRecord locationRecord)
+        {
+           LocationRecord mapRecord = this.Closed.SearchInClosed(locationRecord);
+
+            if (mapRecord == null) return 0.0f;
+            else return mapRecord.Influence;
+        }
+
+        public float GetInfluence(NavigationGraphNode node)
+        {
+            LocationRecord locationRecord = new LocationRecord();
+            locationRecord.Location = node;
+
+            LocationRecord mapRecord = this.Closed.SearchInClosed(locationRecord);
+
+            if (mapRecord == null) return 0.0f;
+            else return mapRecord.Influence;
+        }
     }
 }

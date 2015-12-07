@@ -91,9 +91,14 @@ namespace Assets.Scripts
             this.navMesh = NavigationManager.Instance.NavMeshGraphs[0];
             this.Character = new DynamicCharacter(this.gameObject);
 
-           
+            //initialization of the Influence Maps
+            this.RedInfluenceMap = new InfluenceMap(this.navMesh, new SimpleUnorderedList(), new ClosedLocationRecordDictionary(), new LinearInfluenceFunction(), 0.1f);
+            this.GreenInfluenceMap = new InfluenceMap(this.navMesh, new SimpleUnorderedList(), new ClosedLocationRecordDictionary(), new LinearInfluenceFunction(), 0.1f);
+            this.ResourceInfluenceMap = new InfluenceMap(this.navMesh, new SimpleUnorderedList(), new ClosedLocationRecordDictionary(), new LinearInfluenceFunction(), 0.1f);
+            this.CombinedInfluence = new Dictionary<LocationRecord, float>();
+
             //initialization of the movement algorithms
-            this.aStarPathFinding = new NodeArrayAStarPathFinding(this.navMesh, new EuclideanDistanceHeuristic());
+            this.aStarPathFinding = new InfluenceMapAStarPathfinding(this.navMesh, new EuclideanDistanceHeuristic(), this.RedInfluenceMap, this.GreenInfluenceMap);
             this.aStarPathFinding.NodesPerSearch = 500;
 
             var steeringPipeline = new SteeringPipeline
@@ -117,11 +122,7 @@ namespace Assets.Scripts
 
             this.Character.Movement = steeringPipeline;
 
-            //initialization of the Influence Maps
-            this.RedInfluenceMap = new InfluenceMap(this.navMesh,new SimpleUnorderedList(), new ClosedLocationRecordDictionary(), new LinearInfluenceFunction(), 0.1f);
-            this.GreenInfluenceMap = new InfluenceMap(this.navMesh, new SimpleUnorderedList(), new ClosedLocationRecordDictionary(), new LinearInfluenceFunction(), 0.1f);
-            this.ResourceInfluenceMap = new InfluenceMap(this.navMesh, new SimpleUnorderedList(), new ClosedLocationRecordDictionary(), new LinearInfluenceFunction(), 0.1f);
-            this.CombinedInfluence = new Dictionary<LocationRecord, float>();
+         
 
             //initialization of the GOB decision making
             //let's start by creating 5 main goals
@@ -373,18 +374,10 @@ namespace Assets.Scripts
 
         public void ProcessInfluenceRecord(LocationRecord locationRecord)
         {
-            var redLocationRecord = this.RedInfluenceMap.Closed.SearchInClosed(locationRecord);
-            var greenLocationRecord = this.GreenInfluenceMap.Closed.SearchInClosed(locationRecord);
-            var resourcesLocationRecord = this.ResourceInfluenceMap.Closed.SearchInClosed(locationRecord);
-
-            float redInfluence = 0.0f;
-            float greenInfluence = 0.0f;
-            float resourcesInfluence = 0.0f;
-
-            if (redLocationRecord != null) redInfluence = redLocationRecord.Influence;
-            if (greenLocationRecord != null) greenInfluence = greenLocationRecord.Influence;
-            if (resourcesLocationRecord != null) resourcesInfluence = resourcesLocationRecord.Influence;
-
+            float redInfluence = this.RedInfluenceMap.GetInfluence(locationRecord);
+            float greenInfluence = this.GreenInfluenceMap.GetInfluence(locationRecord);
+            float resourcesInfluence = this.ResourceInfluenceMap.GetInfluence(locationRecord);
+            
             float security = redInfluence - greenInfluence;
             
             if ((security <= 0.0f) && (greenInfluence <= redInfluence))
