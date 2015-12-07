@@ -14,13 +14,31 @@ namespace Assets.Scripts.DecisionMakingActions
         public override bool CanExecute()
         {
             if (!base.CanExecute()) return false;
-            return true;
+            var hg = this.Character.EatGoal.InsistenceValue;
+            var sg = 1 - this.Character.SurviveGoal.InsistenceValue;
+            if (sg > 2)
+            {
+                return hg < 8.0f;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public override bool CanExecute(WorldModel worldModel)
         {
             if (!base.CanExecute(worldModel)) return false;
-            return true;
+            var hg = (float)worldModel.GetProperty(Properties.HUNGER);
+            var sg = (int)worldModel.GetProperty(Properties.HP);
+            if (sg > 2)
+            {
+                return hg < 8.0f;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public override void Execute()

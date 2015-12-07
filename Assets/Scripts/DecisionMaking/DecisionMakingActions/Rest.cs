@@ -23,7 +23,7 @@ namespace Assets.Scripts.DecisionMakingActions
         public override bool CanExecute()
         {
             if (!base.CanExecute()) return false;
-            return this.Character.GameManager.characterData.Energy < 4.0f;
+            return this.Character.GameManager.characterData.Energy < 2.0f;
         }
 
         public override bool CanExecute(WorldModel worldModel)
@@ -31,7 +31,7 @@ namespace Assets.Scripts.DecisionMakingActions
             if (!base.CanExecute(worldModel)) return false;
 
             var energy = (float)worldModel.GetProperty(Properties.ENERGY);
-            return energy < 4.0f;
+            return energy < 2.0f;
         }
 
         public override void ApplyActionEffects(WorldModel worldModel)

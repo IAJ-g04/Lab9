@@ -60,7 +60,7 @@ namespace Assets.Scripts.DecisionMakingActions
             var targetEnabled = (bool)worldModel.GetProperty(this.Target.name);
             var distance =
                   (this.Target.transform.position - this.Character.Character.KinematicData.position).magnitude;
-            if ((float)worldModel.GetProperty(Properties.ENERGY) - 0.5f <= (distance * 0.01f))
+            if ((float)worldModel.GetProperty(Properties.ENERGY) - 0.5f <= (distance *0.01f))
             {
                 return false;
             }
