@@ -7,12 +7,12 @@ namespace Assets.Scripts.DecisionMakingActions
 {
     public abstract class WalkToTargetAndExecuteAction : CharacterAction
     {
-
         protected GameObject Target { get; set; }
 
         protected string Actuator { get { return "FollowPathActuator"; } }
         protected WalkToTargetAndExecuteAction(string actionName, AutonomousCharacter character, GameObject target) : base(actionName + "(" + target.name + ")", character)
         {
+            this.Target = target;
         }
 
         public override float GetDuration()
@@ -42,6 +42,7 @@ namespace Assets.Scripts.DecisionMakingActions
 
         public override bool CanExecute()
         {
+            if (!base.CanExecute()) return false;
             if (this.Target != null)
             {
                 var distance =
@@ -53,6 +54,7 @@ namespace Assets.Scripts.DecisionMakingActions
 
         public override bool CanExecute(WorldModel worldModel)
         {
+            if (!base.CanExecute(worldModel)) return false;
             if (this.Target == null) return false;
             var targetEnabled = (bool)worldModel.GetProperty(this.Target.name);
             var distance =

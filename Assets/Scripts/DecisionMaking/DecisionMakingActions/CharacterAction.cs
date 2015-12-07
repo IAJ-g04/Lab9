@@ -15,49 +15,14 @@ namespace Assets.Scripts.DecisionMakingActions
             this.Character = character;
         }
 
-        public override float GetDuration()
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public override float GetDuration(WorldModel worldModel)
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public override float GetGoalChange(Goal goal)
-        {
-
-            throw new NotImplementedException();
-        }
-
         public override bool CanExecute()
         {
-
-            throw new NotImplementedException();
+            return true;
         }
 
         public override bool CanExecute(WorldModel worldModel)
         {
-
-
-            throw new NotImplementedException();
-        }
-
-        public override void Execute()
-        {
-
-            throw new NotImplementedException();
-
-        }
-
-
-        public override void ApplyActionEffects(WorldModel worldModel)
-        {
-
-            throw new NotImplementedException();
+            return true;
         }
 
     }

@@ -331,6 +331,8 @@ namespace Assets.Scripts
             this.CombinedInfluence.Clear();
             this.BestCombinedInfluence = 0;
             this.BestFlagPosition = Vector3.zero;
+            
+
 
             //TODO implement the method
             //DO NOT FORGET to also update the BestCombinedInfluence and BestFlagPosition properties
