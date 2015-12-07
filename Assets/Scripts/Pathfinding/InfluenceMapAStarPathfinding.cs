@@ -54,12 +54,8 @@ namespace Assets.Scripts.Pathfinding
             if (influenceCost < 0.0f)
                 return;
 
-            g = bestNode.gValue + connectionEdge.Cost + influenceCost;
+            g = bestNode.gValue + connectionEdge.Cost - influenceCost;
             h = this.Heuristic.H(childNode, this.GoalNode);
-
-            //Calculate Influence here
-
-
             f = F(g,h);
 
             if (childNodeRecord.status == NodeStatus.Open)

@@ -17,8 +17,6 @@ namespace Assets.Scripts.DecisionMakingActions
             return change;
         }
 
-       
-
         public override bool CanExecute(WorldModel worldModel)
         {
             if (!base.CanExecute(worldModel)) return false;
