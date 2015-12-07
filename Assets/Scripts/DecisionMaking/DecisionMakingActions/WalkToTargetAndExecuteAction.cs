@@ -44,13 +44,25 @@ namespace Assets.Scripts.DecisionMakingActions
 
         public override bool CanExecute()
         {
-            return this.Target != null;
+           if(this.Target != null)
+            {
+                var distance =
+                   (this.Target.transform.position - this.Character.Character.KinematicData.position).magnitude;
+                return (distance * 0.01f) < (10 - this.Character.RestGoal.InsistenceValue) - 0.5f;
+            }
+            return false;
         }
 
         public override bool CanExecute(WorldModel worldModel)
         {
             if (this.Target == null) return false;
             var targetEnabled = (bool)worldModel.GetProperty(this.Target.name);
+            var distance =
+                  (this.Target.transform.position - this.Character.Character.KinematicData.position).magnitude;
+            if ((float)worldModel.GetProperty(Properties.ENERGY) - 0.5f <= (distance * 0.01f))
+            {
+                return false;
+            }
             return targetEnabled;
         }
 
