@@ -18,18 +18,9 @@ namespace Assets.Scripts.DecisionMakingActions
             return change;
         }
 
-        public override bool CanExecute()
-        {
-            if (!base.CanExecute()) return false;
-            return (this.Character.GameManager.characterData.Arrows >= 1 && this.Character.GameManager.characterData.Hunger > 4.0f);
-        }
-
         public override bool CanExecute(WorldModel worldModel)
         {
-            if (!base.CanExecute(worldModel))
-            {
-                return false;
-            }
+          
             var arr = (int)worldModel.GetProperty(Properties.ARROWS);
             var hh = (float)worldModel.GetProperty(Properties.HUNGER);
             return arr >= 1 && hh > 4.0f;

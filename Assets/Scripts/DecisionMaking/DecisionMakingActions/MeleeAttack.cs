@@ -30,15 +30,10 @@ namespace Assets.Scripts.DecisionMakingActions
             return change;
         }
 
-        public override bool CanExecute()
-        {
-            if (!base.CanExecute()) return false;
-            return (this.Character.GameManager.characterData.HP > 2 && this.Character.GameManager.characterData.Hunger > 4.0f);
-        }
 
         public override bool CanExecute(WorldModel worldModel)
         {
-            if (!base.CanExecute(worldModel)) return false;
+            
             var hp = (int)worldModel.GetProperty(Properties.HP);
             var hh = (float)worldModel.GetProperty(Properties.HUNGER);
             return hp > 2 && hh > 4.0f;
