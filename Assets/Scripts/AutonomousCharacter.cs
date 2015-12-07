@@ -153,7 +153,11 @@ namespace Assets.Scripts
             var restAction = new Rest(this);
             this.Actions = new List<Action>();
             this.Actions.Add(restAction);
-          //  this.Actions.Add(new PlaceFlag(this));
+
+            var newFlag = new GameObject();
+            newFlag.name = "Flag";
+            newFlag.transform.position = BestFlagPosition;
+            this.Actions.Add(new PlaceFlag(this, newFlag));
 
             this.ActiveResources = new Dictionary<NavigationGraphNode, IInfluenceUnit>();
 
