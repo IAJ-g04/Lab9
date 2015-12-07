@@ -7,7 +7,7 @@ namespace Assets.Scripts.DecisionMakingActions
 {
     public abstract class WalkToPositionAndExecuteAction : CharacterAction
     {
-        public bool PositionSet { get; private set; }
+        public bool PositionSet { get; protected set; }
 
         private Vector3 position;
 
@@ -63,23 +63,19 @@ namespace Assets.Scripts.DecisionMakingActions
             else return 0;
         }
 
-        public override bool CanExecute()
-        {
-            if (!base.CanExecute()) return false;
-            if (this.PositionSet)
-            {
-                var distance =
-                   (this.Position - this.Character.Character.KinematicData.position).magnitude;
-                return ((distance * 0.01f) < (10 - this.Character.RestGoal.InsistenceValue) - 0.5f) && 
-                    ((distance * 0.1f) < this.Character.EatGoal.InsistenceValue - 0.1f);
-            }
-            return false;
-        }
-
         public override bool CanExecute(WorldModel worldModel)
         {
             if (!base.CanExecute(worldModel)) return false;
             if (!this.PositionSet) return false;
+
+            //Secret level 1
+       /*     var node = this.Character.navMesh.QuantizeToNode(this.Position, 1.0f);
+
+            float redInfluence = this.Character.RedInfluenceMap.GetInfluence(node);
+            float greenInfluence = this.Character.GreenInfluenceMap.GetInfluence(node);
+
+            float Security = redInfluence - greenInfluence;
+            if (Security <= 0) return false;*/
 
             var targetEnabled = (bool)worldModel.GetProperty(TargetName);
             var distance =
@@ -96,7 +92,6 @@ namespace Assets.Scripts.DecisionMakingActions
         {
             this.Character.CharActuator.SwitchActuator(this.Actuator);
             this.Character.Targeter.UpdateGoal(this.Position);
-            this.PositionSet = false;
         }
 
 

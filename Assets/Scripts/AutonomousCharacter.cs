@@ -72,7 +72,7 @@ namespace Assets.Scripts
         public float BestCombinedInfluence { get; set; }
 
         //private fields for internal use only
-        private NavMeshPathGraph navMesh;
+        public NavMeshPathGraph navMesh;
         private AStarPathfinding aStarPathFinding;
         private PathFindingDecomposer decomposer;
         
@@ -128,17 +128,17 @@ namespace Assets.Scripts
             //let's start by creating 5 main goals
             //the eat goal is the only goal that increases at a fixed rate per second, it increases at a rate of 0.1 per second
             this.SurviveGoal = new Goal(SURVIVE_GOAL, 1.5f);
-            this.EatGoal = new Goal(EAT_GOAL, 2.0f)
+            this.EatGoal = new Goal(EAT_GOAL, 2.5f)
             {
                 ChangeRate = 0.1f
             };
-            this.GetRichGoal = new Goal(GET_RICH_GOAL, 1.0f)
+            this.GetRichGoal = new Goal(GET_RICH_GOAL, 1.25f)
             {
                 InsistenceValue = 5.0f,
                 ChangeRate = 0.2f
             };
             this.RestGoal = new Goal(REST_GOAL, 0.25f);
-            this.ConquerGoal = new Goal(CONQUER_GOAL, 0.5f)
+            this.ConquerGoal = new Goal(CONQUER_GOAL, 1.5f)
             {
                 InsistenceValue = 5.0f
             };
@@ -168,7 +168,7 @@ namespace Assets.Scripts
 
             foreach (var tree in GameObject.FindGameObjectsWithTag("Tree"))
             {
-                this.Actions.Add(new GetArrows(this, tree));
+               this.Actions.Add(new GetArrows(this, tree));
                 this.AddResource(new Resource(this.navMesh.QuantizeToNode(tree.transform.position, 1.0f)));
             }
 

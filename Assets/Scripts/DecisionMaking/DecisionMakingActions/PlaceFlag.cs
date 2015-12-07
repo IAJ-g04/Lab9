@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.DecisionMaking.GOB;
 using UnityEngine;
+using Assets.Scripts.GameManager;
 
 namespace Assets.Scripts.DecisionMakingActions
 {
@@ -21,7 +22,7 @@ namespace Assets.Scripts.DecisionMakingActions
         public override bool CanExecute(WorldModel worldModel)
         {
             if (!base.CanExecute(worldModel)) return false;
-            return (worldModel.GetGoalValue(AutonomousCharacter.CONQUER_GOAL) > 8.5f && worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL) < 8.5f);
+            return true; // (worldModel.GetGoalValue(AutonomousCharacter.CONQUER_GOAL) > 5.5f && worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL) < 8.5f);
         }
 
         public override void Execute()
@@ -29,6 +30,8 @@ namespace Assets.Scripts.DecisionMakingActions
 
             base.Execute();
             this.Character.GameManager.PlaceFlag(this.Position);
+            if (this.Character.RedFlags.Contains(new Flag(this.Character.navMesh.QuantizeToNode(this.Position, 1.0f), FlagColor.Red)))
+                this.PositionSet = false;
         }
 
 

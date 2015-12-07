@@ -20,7 +20,7 @@ namespace Assets.Scripts.DecisionMakingActions
         public override bool CanExecute(WorldModel worldModel)
         {
             var en = (float)worldModel.GetProperty(Properties.ENERGY);
-            return en > 0.3;        
+            return en > 0.2;        
         }
     }
 
