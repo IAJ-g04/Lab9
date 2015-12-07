@@ -157,7 +157,7 @@ namespace Assets.Scripts
             var newFlag = new GameObject();
             newFlag.name = "Flag";
             newFlag.transform.position = BestFlagPosition;
-            this.Actions.Add(new PlaceFlag(this, newFlag));
+            //this.Actions.Add(new PlaceFlag(this, newFlag));
 
             this.ActiveResources = new Dictionary<NavigationGraphNode, IInfluenceUnit>();
 
@@ -335,13 +335,67 @@ namespace Assets.Scripts
             this.CombinedInfluence.Clear();
             this.BestCombinedInfluence = 0;
             this.BestFlagPosition = Vector3.zero;
+
+            foreach (var locationRecord in this.RedInfluenceMap.Closed.All())
+            {
+                if (this.CombinedInfluence.ContainsKey(locationRecord))
+                {
+                    continue;
+                }
+
+                ProcessInfluenceRecord(locationRecord);
+            }
+
+            foreach (var locationRecord in this.GreenInfluenceMap.Closed.All())
+            {
+                if (this.CombinedInfluence.ContainsKey(locationRecord))
+                {
+                    continue;
+                }
+
+                ProcessInfluenceRecord(locationRecord);
+            }
+
+            foreach (var locationRecord in this.ResourceInfluenceMap.Closed.All())
+            {
+                if (this.CombinedInfluence.ContainsKey(locationRecord))
+                {
+                    continue;
+                }
+
+                ProcessInfluenceRecord(locationRecord);
+            }
+        }
+
+        public void ProcessInfluenceRecord(LocationRecord locationRecord)
+        {
+            var redLocationRecord = this.RedInfluenceMap.Closed.SearchInClosed(locationRecord);
+            var greenLocationRecord = this.GreenInfluenceMap.Closed.SearchInClosed(locationRecord);
+            var resourcesLocationRecord = this.ResourceInfluenceMap.Closed.SearchInClosed(locationRecord);
+
+            float redInfluence = 0.0f;
+            float greenInfluence = 0.0f;
+            float resourcesInfluence = 0.0f;
+
+            if (redLocationRecord != null) redInfluence = redLocationRecord.Influence;
+            if (greenLocationRecord != null) greenInfluence = greenLocationRecord.Influence;
+            if (resourcesLocationRecord != null) resourcesInfluence = resourcesLocationRecord.Influence;
+
+            float security = redInfluence - greenInfluence;
             
+            if ((security <= 0.0f) && (greenInfluence <= redInfluence))
+            {
+                security = 1.0f;
+            }
 
+            float combinedInfluence = (security * resourcesInfluence) / (redInfluence + 1.0f);
+            this.CombinedInfluence.Add(locationRecord, combinedInfluence);
 
-            //TODO implement the method
-            //DO NOT FORGET to also update the BestCombinedInfluence and BestFlagPosition properties
-            //they will be needed for the PlaceFlag action
-            throw new NotImplementedException();
+            if (combinedInfluence > this.BestCombinedInfluence)
+            {
+                this.BestCombinedInfluence = combinedInfluence;
+                this.BestFlagPosition = locationRecord.Location.Position;
+            }
         }
 
         public void UpdateRedFlags(ICollection<GameObject> redFlags)
@@ -371,7 +425,7 @@ namespace Assets.Scripts
 
         private void ChangeDebugInfluenceMap()
         {
-            if (this.influenceMapDebugMode == 3)
+            if (this.influenceMapDebugMode == 4)
             {
                 this.influenceMapDebugMode = 0;
             }
@@ -387,7 +441,7 @@ namespace Assets.Scripts
             {
                 var size = new Vector3(2, 1, 2);
 
-                if (this.influenceMapDebugMode == 0)
+                if (this.influenceMapDebugMode == 1)
                 {
                     var red = Color.red;
                     Gizmos.color = red;
@@ -398,7 +452,7 @@ namespace Assets.Scripts
                         Gizmos.DrawCube(locationRecord.Location.LocalPosition, size);
                     }
                 }
-                else if (this.influenceMapDebugMode == 1)
+                else if (this.influenceMapDebugMode == 2)
                 {
                     var green = Color.green;
                     Gizmos.color = green;
@@ -409,7 +463,7 @@ namespace Assets.Scripts
                         Gizmos.DrawCube(locationRecord.Location.LocalPosition, size);
                     }
                 }
-                else if (this.influenceMapDebugMode == 2)
+                else if (this.influenceMapDebugMode == 3)
                 {
                     var yellow = Color.yellow;
                     Gizmos.color = yellow;
@@ -420,13 +474,13 @@ namespace Assets.Scripts
                         Gizmos.DrawCube(locationRecord.Location.LocalPosition, size);
                     }
                 }
-                else if (this.influenceMapDebugMode == 3)
+                else if (this.influenceMapDebugMode == 4)
                 {
                     var blue = Color.blue;
                     Gizmos.color = blue;
                     foreach (var locationRecord in this.CombinedInfluence)
                     {
-                        blue.a = 1 / 5.0f * locationRecord.Value;
+                        blue.a = 1 / 2.5f * locationRecord.Value;
                         Gizmos.color = blue;
                         Gizmos.DrawCube(locationRecord.Key.Location.LocalPosition, size);
                     }
