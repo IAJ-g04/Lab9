@@ -17,16 +17,11 @@ namespace Assets.Scripts.DecisionMakingActions
             return change;
         }
 
-        public override bool CanExecute()
-        {
-            if (!base.CanExecute()) return false;
-            return true;
-        }
-
+    
         public override bool CanExecute(WorldModel worldModel)
         {
             if (!base.CanExecute(worldModel)) return false;
-            return true;
+            return (worldModel.GetGoalValue(AutonomousCharacter.CONQUER_GOAL) > 8.5f && worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL) < 8.5f);
         }
 
         public override void Execute()

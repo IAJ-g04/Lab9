@@ -20,10 +20,10 @@ namespace Assets.Scripts.DecisionMakingActions
 
         public override bool CanExecute(WorldModel worldModel)
         {
-          
+            if (!base.CanExecute(worldModel)) return false;
             var arr = (int)worldModel.GetProperty(Properties.ARROWS);
             var hh = (float)worldModel.GetProperty(Properties.HUNGER);
-            return arr >= 1 && hh > 4.0f;
+            return arr >= 1 && hh > 0.1;
         }
 
         public override void Execute()

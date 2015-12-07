@@ -19,13 +19,8 @@ namespace Assets.Scripts.DecisionMakingActions
 
         public override bool CanExecute(WorldModel worldModel)
         {
-            var hn = (float)worldModel.GetProperty(Properties.HUNGER);
             var en = (float)worldModel.GetProperty(Properties.ENERGY);
-
-            if (hn > 9.5 || en < 0.5)
-                return false;
-            return true;
-         
+            return en > 0.3;        
         }
     }
 
