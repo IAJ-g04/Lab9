@@ -17,6 +17,7 @@ namespace Assets.Scripts.DecisionMakingActions
         {
             var change = base.GetGoalChange(goal);
             if (goal.Name == AutonomousCharacter.REST_GOAL) change -= 0.1f;
+            if (goal.Name == AutonomousCharacter.EAT_GOAL) change += 0.1f;
             return change;
         }
 
@@ -43,6 +44,12 @@ namespace Assets.Scripts.DecisionMakingActions
 
             var energy = (float)worldModel.GetProperty(Properties.ENERGY);
             worldModel.SetProperty(Properties.ENERGY, energy + 0.1f);
+
+            var eatValue = worldModel.GetGoalValue(AutonomousCharacter.EAT_GOAL);
+            worldModel.SetGoalValue(AutonomousCharacter.EAT_GOAL, restValue + 0.1f);
+
+            var hunger = (float)worldModel.GetProperty(Properties.HUNGER);
+            worldModel.SetProperty(Properties.ENERGY, hunger + 0.1f);
         }
 
         public override void Execute()
