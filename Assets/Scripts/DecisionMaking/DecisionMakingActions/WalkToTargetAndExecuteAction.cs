@@ -54,7 +54,7 @@ namespace Assets.Scripts.DecisionMakingActions
                 var distance =
                    (this.Target.transform.position - this.Character.Character.KinematicData.position).magnitude;
                 return ((distance * 0.01f) < (10 - this.Character.RestGoal.InsistenceValue) - 0.5f) && 
-                    ((distance * 0.1f) < (10 - this.Character.EatGoal.InsistenceValue) + 0.5f);
+                    ((distance * 0.1f) < this.Character.EatGoal.InsistenceValue - 0.1f);
             }
             return false;
         }
@@ -65,7 +65,8 @@ namespace Assets.Scripts.DecisionMakingActions
             var targetEnabled = (bool)worldModel.GetProperty(this.Target.name);
             var distance =
                   (this.Target.transform.position - this.Character.Character.KinematicData.position).magnitude;
-            if ((float)worldModel.GetProperty(Properties.ENERGY) - 0.5f <= (distance *0.01f))
+            if (((float)worldModel.GetProperty(Properties.ENERGY) - 0.5f <= (distance *0.01f)) &&
+                ((float)worldModel.GetProperty(Properties.HUNGER) - 0.1f <= (distance * 0.1f)))
             {
                 return false;
             }
