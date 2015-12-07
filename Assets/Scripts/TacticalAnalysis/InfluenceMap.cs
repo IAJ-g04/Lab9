@@ -58,8 +58,14 @@ namespace Assets.Scripts.TacticalAnalysis
         {
             var processedNodes = 0;
 
-            while (this.Open.CountOpen() > 0  || processedNodes < this.NodesPerFlood)
+            while (this.Open.CountOpen() > 0)
             {
+                if(processedNodes < this.NodesPerFlood)
+                {
+                    this.InProgress = true;
+                    return false;
+                }
+
                 LocationRecord currentRecord = this.Open.GetBestAndRemove();
                 this.Closed.AddToClosed(currentRecord);
                 processedNodes++;
@@ -67,23 +73,25 @@ namespace Assets.Scripts.TacticalAnalysis
                 var outConnections = currentRecord.Location.OutEdgeCount;
                 for (int i = 0; i < outConnections; i++)
                 {
-                    this.ProcessChildNode(currentRecord, currentRecord.Location.EdgeOut(i));
+                    LocationRecord child = new LocationRecord();
+                    child.Location = currentRecord.Location.EdgeOut(i).ToNode;
+                    this.ProcessChildNode(currentRecord, child);
                 }
 
             }
             
             this.InProgress = false;
-            this.CleanUp();
+          //  this.CleanUp();
             return true;
         }
 
-        protected void ProcessChildNode(LocationRecord bestRecord, NavigationGraphEdge connectionEdge)
+        protected void ProcessChildNode(LocationRecord bestRecord, LocationRecord child)
         {
 
-            float influence = this.InfluenceFunction.DetermineInfluence(bestRecord.StrongestInfluenceUnit, bestRecord.Location.Position);
+            float influence = this.InfluenceFunction.DetermineInfluence(bestRecord.StrongestInfluenceUnit, child.Location.Position);
             if (influence < this.InfluenceThreshold) return;
 
-            LocationRecord neighborRecord = this.Closed.SearchInClosed(bestRecord);
+            LocationRecord neighborRecord = this.Closed.SearchInClosed(child);
 
             if(neighborRecord != null)
             {
@@ -91,7 +99,7 @@ namespace Assets.Scripts.TacticalAnalysis
                 else this.Closed.RemoveFromClosed(neighborRecord);
             } else
             {
-                neighborRecord = this.Open.SearchInOpen(bestRecord);
+                neighborRecord = this.Open.SearchInOpen(child);
                 if(neighborRecord != null)
                 {
                     if(neighborRecord.Influence < influence)
@@ -102,10 +110,7 @@ namespace Assets.Scripts.TacticalAnalysis
                     return;
                 } else
                 {
-                    neighborRecord = new LocationRecord()
-                    {
-                        Location = bestRecord.Location
-                    };
+                    neighborRecord = child;
                 }
             }
 
