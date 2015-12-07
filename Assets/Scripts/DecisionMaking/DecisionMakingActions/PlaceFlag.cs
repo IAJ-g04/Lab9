@@ -1,60 +1,51 @@
 ﻿using System;
 using Assets.Scripts.DecisionMaking.GOB;
-using Action = Assets.Scripts.DecisionMaking.GOB.Action;
+using UnityEngine;
 
 namespace Assets.Scripts.DecisionMakingActions
 {
-    public class PlaceFlag : Action
+    public class PlaceFlag : WalkToTargetAndExecuteAction
     {
-        protected AutonomousCharacter Character { get; set; }
 
-        public PlaceFlag(AutonomousCharacter character) : base("PlaceFlag")
+        public PlaceFlag(AutonomousCharacter character, GameObject target) : base("PlaceFlag", character, target)
         {
-            this.Character = character;
-        }
-
-        public override float GetDuration()
-        {
-            //TODO: implement
-            throw new NotImplementedException();
-        }
-
-        public override float GetDuration(WorldModel worldModel)
-        {
-            //TODO: implement
-            throw new NotImplementedException();
         }
 
         public override float GetGoalChange(Goal goal)
         {
-            //TODO: implement
-            throw new NotImplementedException();
+            var change = base.GetGoalChange(goal);
+            if (goal.Name == AutonomousCharacter.CONQUER_GOAL) change -= 2.0f;
+            return change;
         }
 
         public override bool CanExecute()
         {
-            //TODO: implement
-            throw new NotImplementedException();
+            if (!base.CanExecute()) return false;
+            return true;
         }
 
         public override bool CanExecute(WorldModel worldModel)
         {
-            //TODO: implement
-            throw new NotImplementedException();
+            if (!base.CanExecute(worldModel)) return false;
+            return true;
         }
 
         public override void Execute()
         {
 
-            //TODO: implement
-            throw new NotImplementedException();
+            base.Execute();
+            this.Character.GameManager.PlaceFlag(this.Target.transform.position);
         }
 
 
         public override void ApplyActionEffects(WorldModel worldModel)
         {
-            //TODO: implement
-            throw new NotImplementedException();
+            base.ApplyActionEffects(worldModel);
+
+            var conqValue = worldModel.GetGoalValue(AutonomousCharacter.CONQUER_GOAL);
+            worldModel.SetGoalValue(AutonomousCharacter.CONQUER_GOAL, conqValue - 2.0f);
+
+
         }
     }
 }
